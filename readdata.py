@@ -2,25 +2,26 @@ import pandas as pd
 import pprint as pp
 import numpy as np 
 
-df = pd.read_excel('data/Altersverteilung210126.xlsx', sheet_name=None)
+df = pd.read_excel('data/Altersverteilung210309.xlsx', sheet_name=None)
 
-print(df["Inzidenzen"].index.stop)
-print(df["Inzidenzen"].columns[1:][0])
-print(df["Inzidenzen"].loc[0])
+# old version for 210126, new version Inzidenzen -> inzidenz_tabelle
+# print(df["Inzidenzen"].index.stop)
+# print(df["Inzidenzen"].columns[1:][0])
+# print(df["Inzidenzen"].loc[0])
 
 
 def extract_incidence_data():
     heatmap_data =[]
 
-    for row in range(0, df["Inzidenzen"].index.stop):
+    for row in range(0, df["inzidenz_tabelle"].index.stop):
         print(row)
-        dataname = df["Inzidenzen"].loc[row, "Altersgruppe" ]
+        dataname = df["inzidenz_tabelle"].loc[row, "Altersgruppe" ]
         data_dicts =[]
-        for week in df["Inzidenzen"].columns[1:]:
-            print("KW: {}, inzidenz: {}".format(week, df["Inzidenzen"].loc[row, week]))
-            inzidenz_val = round(df["Inzidenzen"].loc[row, week],1)
+        for week in df["inzidenz_tabelle"].columns[1:]:
+            print("KW: {}, inzidenz: {}".format(week, df["inzidenz_tabelle"].loc[row, week]))
+            inzidenz_val = round(df["inzidenz_tabelle"].loc[row, week],1)
             data_dicts.append({"x":str(week),"y":inzidenz_val})
-            # data_dicts.append(df["Inzidenzen"].loc[row, week])
+            # data_dicts.append(df["inzidenz_tabelle"].loc[row, week])
         row_dict = {"name": dataname, "data":data_dicts}
         heatmap_data.append(row_dict)
 
