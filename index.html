@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="title" content="Interactive Covid-19 Graphs">
+    <meta name="description" content="Collection of interactive graphs based on the Covid-19 data in Germany">
+    <meta name="keywords"
+        content="Corona graph, Covid-19 graph, interactive graph, corona interactive graph, corona data visualization">
+    <meta name="author" content="Yongkie Wiyogo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous">
+    <script src="js/modules/vue2.js"></script>
+    <script src="js/modules/vue-i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+    <title>Interactive Covid-19 Graphs</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="jumbotron bg-dark text-white">
+            <h1 class="text-center" href="#graph">{{ $t("text.siteTitle") }}</h1>
+        </div>
+
+        <div class="container align-left">
+            <div class='row'>
+                <div class='input-group mb-3 col-md-4'>
+
+                    <div class='input-group-prepend'>
+                        <span class='input-group-text bg-info text-white' id='inputGroup-sizing-default'>{{
+                            $t("text.language") }}:</span>
+
+                    </div>
+                    <select class="form-control" v-model="$i18n.locale">
+                        <option v-for="(lang,i) in languages" :key="`Lang${i}`" :value="lang"
+                            v-bind:selected="selLanguage === lang">{{ lang }}</option>
+                    </select>
+                </div>
+                <div class='input-group mb-3 col-md-4'>
+                    <div class='input-group-prepend'>
+                        <span class='input-group-text bg-info text-white' id='inputGroup-sizing-default'>{{
+                            $t("text.country") }}:</span>
+                    </div>
+                    <select class="form-control " @change="changeCountry($event)">
+                        <option v-for="country in countries" v-bind:selected="selCountry === country.name">
+                            {{ country.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="container-fluid">
+            <!-- the custom component tag has to be inside a div tag-->
+            <div id="chart1">
+                <testchart />
+            </div>
+            <div class="dropdown-divider"></div>
+            <div id="chart2">
+                <heatmapchart />
+            </div>
+            <div class="container bg-secondary text-white">
+                <div class="card-body ">
+                    <h5 class="card-title">{{ $t("text.notes") }}</h5>
+                    <ul class="card-text">
+                        <li>{{ $t("notes.n1") }}</li>
+                        <li>{{ $t("notes.n2") }}</li>
+                        <li>{{ $t("notes.n3") }}</li>
+                        <li>{{ $t("notes.n4") }}</li>
+                        <li>{{ $t("notes.n5") }}
+                            <a class="text-warning"
+                                href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Gesamt.html">https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Situationsberichte/Gesamt.html</a>
+                        </li>
+                        <li>{{ $t("notes.n8") }}
+                            <a class="text-warning"
+                                href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Altersverteilung.html">
+                                Altersverteilung.xlsx</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <br />
+            <div class="dropdown-divider"></div>
+            <div id="chart4">
+                <mortalitychart />
+            </div>
+            <br />
+            <div class="dropdown-divider"></div>
+            <div id="chart5">
+                <winter_mortalitychart />
+            </div>
+            <div class="container bg-secondary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $t("text.source") }}</h5>
+                    <ul class="card-text">
+                        <li><a class="text-warning"
+                                href="https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Sterbefaelle-Lebenserwartung/Tabellen/sonderauswertung-sterbefaelle.html">
+                                Statistisches Bundesamt: Sterbefälle für Deutschland 2016 - 2020</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <br />
+            <div class="dropdown-divider"></div>
+            <div id="chart6">
+                <sickchart />
+            </div>
+            <div class="container bg-secondary text-white">
+                <div class="card-body ">
+                    <h5 class="card-title text-center">{{ $t("notes.n0") }}: <a class="text-warning"
+                            href="https://www.statistik-bw.de/SozSicherung/SozVersicherung/SV_KS.jsp?path=/Gesundheit/BehandlungenKV ">https://www.statistik-bw.de/SozSicherung/SozVersicherung/SV_KS.jsp?path=/Gesundheit/BehandlungenKV
+                        </a></h5>
+                    <div class="text-center">
+                        <img src="http://api.qrserver.com/v1/create-qr-code/?color=000000&amp;bgcolor=FFFFFF&amp;data=https%3A%2F%2Fwww.statistik-bw.de%2FSozSicherung%2FSozVersicherung%2FSV_KS.jsp%3Fpath%3D%2FGesundheit%2FBehandlungenKV&amp;qzone=1&amp;margin=0&amp;size=100x100&amp;ecc=L"
+                            alt="qr code" />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="dropdown-divider"></div>
+            <div id="chart7">
+                <rchart />
+            </div>
+            <div class="container bg-secondary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $t("text.source") }}</h5>
+                    <ul class="card-text">
+                        <li>{{ $t("notes.n6") }}
+                            <a class="text-warning"
+                                href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Projekte_RKI/Nowcasting.html">
+                                Nowcasting-Zahlen.xlsx</a>
+                        </li>
+                        <li>{{ $t("notes.n7")}}<a class="text-warning"
+                                href="https://youtu.be/8UvFhIFzaac">https://youtu.be/8UvFhIFzaac</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <br />
+
+        <!-- Footer -->
+        <div class="card bg-dark text-center text-white">
+            <div class="card-body">
+                <h5 class="card-title">{{ $t("footer.title")}}</h5>
+                <p class="card-text">{{ $t("footer.text1")}} <a class="btn btn-primary"
+                        href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B8SHK9SX96PQU&source=url"
+                        rel="nofollow" target="_blank">{{ $t("footer.button1")}}</a></p>
+                <p class="card-text">{{ $t("footer.text2")}}<a class="btn btn-primary"
+                        href="https://gitlab.com/ywiyogo/corona-graphs/-/issues" target="_blank">{{
+                        $t("footer.button2")}}</a></p>
+                <p class="card-text">&#169; Yongkie Wiyogo</p>
+                <br>
+            </div>
+        </div>
+    </div>
+    <script>
+    </script>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/graph_sick_in_germany.js"></script>
+    <script src="js/graph_tests.js"></script>
+    <script src="js/graph_rvalues.js"></script>
+    <script src="js/graph_heatmap.js"></script>
+    <script src="js/graph_mortality.js"></script>
+    <script src="js/main.js"></script>
+    <!-- <script src="js/helper.js"></script> -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+        </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+        </script>
+
+</body>
+
+</html>
