@@ -2,26 +2,33 @@ import pandas as pd
 import pprint as pp
 import numpy as np 
 
-df = pd.read_excel('data/Altersverteilung210309.xlsx', sheet_name=None)
 
+datafile = 'data/Altersverteilung210316.xlsx'
 # old version for 210126, new version Inzidenzen -> inzidenz_tabelle
 # print(df["Inzidenzen"].index.stop)
 # print(df["Inzidenzen"].columns[1:][0])
 # print(df["Inzidenzen"].loc[0])
 
+# RKI changes regularly the sheet names which makes me hard to automate the visualization
+sheetname = "Inzidenzen"
+sheetname = "inzidenz_tabelle"
+sheetname = "7-Tage-Inzidenzen"
+
+df = pd.read_excel(datafile, sheet_name=None)
+
 
 def extract_incidence_data():
     heatmap_data =[]
 
-    for row in range(0, df["inzidenz_tabelle"].index.stop):
+    for row in range(0, df[sheetname].index.stop):
         print(row)
-        dataname = df["inzidenz_tabelle"].loc[row, "Altersgruppe" ]
+        dataname = df[sheetname].loc[row, "Altersgruppe" ]
         data_dicts =[]
-        for week in df["inzidenz_tabelle"].columns[1:]:
-            print("KW: {}, inzidenz: {}".format(week, df["inzidenz_tabelle"].loc[row, week]))
-            inzidenz_val = round(df["inzidenz_tabelle"].loc[row, week],1)
+        for week in df[sheetname].columns[1:]:
+            print("KW: {}, inzidenz: {}".format(week, df[sheetname].loc[row, week]))
+            inzidenz_val = round(df[sheetname].loc[row, week],1)
             data_dicts.append({"x":str(week),"y":inzidenz_val})
-            # data_dicts.append(df["inzidenz_tabelle"].loc[row, week])
+            # data_dicts.append(df[sheetname].loc[row, week])
         row_dict = {"name": dataname, "data":data_dicts}
         heatmap_data.append(row_dict)
 
