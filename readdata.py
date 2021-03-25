@@ -1,9 +1,9 @@
 import pandas as pd
 import pprint as pp
 import numpy as np 
+from collections import namedtuple
 
-
-datafile = 'data/Altersverteilung210316.xlsx'
+datafile = 'data/Altersverteilung210323.xlsx'
 # old version for 210126, new version Inzidenzen -> inzidenz_tabelle
 # print(df["Inzidenzen"].index.stop)
 # print(df["Inzidenzen"].columns[1:][0])
@@ -13,9 +13,13 @@ datafile = 'data/Altersverteilung210316.xlsx'
 sheetname = "Inzidenzen"
 sheetname = "inzidenz_tabelle"
 sheetname = "7-Tage-Inzidenzen"
+sheetname = "7Tage-Inzidenz"
 
 df = pd.read_excel(datafile, sheet_name=None)
 
+filter = namedtuple("Filter", ["val", "text"])
+filter.val = False
+filter.text = "2021"
 
 def extract_incidence_data():
     heatmap_data =[]
@@ -25,11 +29,14 @@ def extract_incidence_data():
         dataname = df[sheetname].loc[row, "Altersgruppe" ]
         data_dicts =[]
         for week in df[sheetname].columns[1:]:
+            if filter.val and (not filter.text in week):
+                continue
             print("KW: {}, inzidenz: {}".format(week, df[sheetname].loc[row, week]))
-            inzidenz_val = round(df[sheetname].loc[row, week],1)
+            inzidenz_val = round(df[sheetname].loc[row, week])
             data_dicts.append({"x":str(week),"y":inzidenz_val})
             # data_dicts.append(df[sheetname].loc[row, week])
-        row_dict = {"name": dataname, "data":data_dicts}
+                
+            row_dict = {"name": dataname, "data":data_dicts}
         heatmap_data.append(row_dict)
 
 
