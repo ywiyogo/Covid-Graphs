@@ -4,6 +4,11 @@
             <apexchart type="line" width="100%" height="800rem" :series="$t('i18n_series')" :options="$t('i18n_options')" ></apexchart>
             <br/>
         </div>
+
+         <div id="chartDeaths">
+            <apexchart type="line" width="100%" height="800rem" :series="$t('deaths_series')" :options="$t('deaths_options')" ></apexchart>
+            <br/>
+        </div>
         <q-page-container style="padding: 1em 5em ;">
             <q-card dark bordered class="bg-grey-9 my-card">
                 <q-card-section>
@@ -28,12 +33,329 @@
 </template>
 
 <script>
-var num_of_tests = [124716, 127457, 348619, 361515, 408348, 380197, 331902, 363890, 326788, 403875, 432666, 353467, 405269, 340986, 327196, 388187, 467413, 506490, 510551, 538701, 572967, 581037, 733990, 891988, 1055662, 1101299, 1099560, 1162133, 1149171, 1168016, 1101413, 1188338, 1263716, 1418726, 1631343, 1608125, 1422301, 1367570, 1353980, 1329716, 1445671, 1613358, 1077066, 806908]
-var num_of_positives = [3892, 7582, 23820, 31414, 36885, 30791, 22082, 18083, 12608, 10755, 7233, 5218, 4310, 3208, 2816, 5316, 3689, 3104, 2992, 3497, 4534, 5699, 7330, 8661, 9233, 8324, 8294, 10046, 13261, 14094, 18290, 29567, 44759, 78106, 116673, 126141, 126181, 127742, 125451, 135062, 165953, 185724, 138761, 128349]
-var num_of_deaths = [3, 18, 162, 602, 1368, 1737, 1595, 1170, 785, 517, 356, 273, 151, 114, 73, 49, 53, 46, 28, 26, 31, 29, 30, 31, 40, 37, 19, 32, 54, 65, 80, 121, 234, 401, 777, 1206, 1600, 2035, 2767, 3234, 4019, 4840, 5298, 5145]
-var positive_rates = [3.12, 5.95, 6.83, 8.69, 9.03, 8.1, 6.65, 4.97, 3.86, 2.66, 1.67, 1.48, 1.06, 0.94, 0.86, 1.37, 0.79, 0.61, 0.59, 0.65, 0.79, 0.98, 1, 0.97, 0.84, 0.74, 0.77, 0.86, 1.16, 1.22, 1.66, 2.49, 3.54, 5.51, 7.15, 7.84, 8.87, 9.34, 9.27, 10.16, 11.48, 11.51, 12.88, 15.91]
-var week_numbers = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]
-var ifr = [0.001,0.002,0.007,0.019,0.037,0.056,0.072,0.065,0.062,0.048,0.049,0.052,0.035,0.036,0.026,0.009,0.014,0.015,0.009,0.007,0.007,0.005,0.004,0.004,0.004,0.004,0.002,0.003,0.004,0.005,0.004,0.004,0.005,0.005,0.007,0.010,0.013,0.016,0.022,0.024,0.024,0.026,0.038,0.040]
+var week_numbers =['10/2020',
+ '11/2020',
+ '12/2020',
+ '13/2020',
+ '14/2020',
+ '15/2020',
+ '16/2020',
+ '17/2020',
+ '18/2020',
+ '19/2020',
+ '20/2020',
+ '21/2020',
+ '22/2020',
+ '23/2020',
+ '24/2020',
+ '25/2020',
+ '26/2020',
+ '27/2020',
+ '28/2020',
+ '29/2020',
+ '30/2020',
+ '31/2020',
+ '32/2020',
+ '33/2020',
+ '34/2020',
+ '35/2020',
+ '36/2020',
+ '37/2020',
+ '38/2020',
+ '39/2020',
+ '40/2020',
+ '41/2020',
+ '42/2020',
+ '43/2020',
+ '44/2020',
+ '45/2020',
+ '46/2020',
+ '47/2020',
+ '48/2020',
+ '49/2020',
+ '50/2020',
+ '51/2020',
+ '52/2020',
+ '53/2020',
+ '1/2021',
+ '2/2021',
+ '3/2021',
+ '4/2021',
+ '5/2021',
+ '6/2021',
+ '7/2021',
+ '8/2021',
+ '9/2021',
+ '10/2021',
+ '11/2021',
+ '12/2021']
+var num_of_tests =[66906.0,
+ 128008.0,
+ 374534.0,
+ 377599.0,
+ 417646.0,
+ 386241.0,
+ 339983.0,
+ 363659.0,
+ 327799.0,
+ 385638.0,
+ 431682.0,
+ 356489.0,
+ 408078.0,
+ 342328.0,
+ 327980.0,
+ 384834.0,
+ 472823.0,
+ 512969.0,
+ 513572.0,
+ 544219.0,
+ 556634.0,
+ 589201.0,
+ 719476.0,
+ 871191.0,
+ 1034449.0,
+ 1133623.0,
+ 1052942.0,
+ 1148465.0,
+ 1147879.0,
+ 1220279.0,
+ 1129127.0,
+ 1218988.0,
+ 1284349.0,
+ 1445463.0,
+ 1663992.0,
+ 1634729.0,
+ 1467454.0,
+ 1400145.0,
+ 1381117.0,
+ 1395790.0,
+ 1516038.0,
+ 1672033.0,
+ 1090372.0,
+ 845729.0,
+ 1231405.0,
+ 1187564.0,
+ 1110190.0,
+ 1148018.0,
+ 1097419.0,
+ 1056768.0,
+ 1098665.0,
+ 1170335.0,
+ 1136825.0]
+var num_of_positives =[1717.0,
+ 7470.0,
+ 25886.0,
+ 33139.0,
+ 37649.0,
+ 30829.0,
+ 22724.0,
+ 18127.0,
+ 12600.0,
+ 10181.0,
+ 7142.0,
+ 5315.0,
+ 4335.0,
+ 3219.0,
+ 2956.0,
+ 5588.0,
+ 3919.0,
+ 3204.0,
+ 3042.0,
+ 3608.0,
+ 4537.0,
+ 5888.0,
+ 7374.0,
+ 8545.0,
+ 8868.0,
+ 8273.0,
+ 8203.0,
+ 10403.0,
+ 13647.0,
+ 15178.0,
+ 19930.0,
+ 30220.0,
+ 46000.0,
+ 80097.0,
+ 118111.0,
+ 128537.0,
+ 128986.0,
+ 131185.0,
+ 128882.0,
+ 138305.0,
+ 169520.0,
+ 188283.0,
+ 141413.0,
+ 129930.0,
+ 157772.0,
+ 124037.0,
+ 110014.0,
+ 97256.0,
+ 82288.0,
+ 67774.0,
+ 67211.0,
+ 72008.0,
+ 70991.0]
+var positive_rates =[2.6,
+ 5.8,
+ 6.9,
+ 8.8,
+ 9.0,
+ 8.0,
+ 6.7,
+ 5.0,
+ 3.8,
+ 2.6,
+ 1.7,
+ 1.5,
+ 1.1,
+ 0.9,
+ 0.9,
+ 1.5,
+ 0.8,
+ 0.6,
+ 0.6,
+ 0.7,
+ 0.8,
+ 1.0,
+ 1.0,
+ 1.0,
+ 0.9,
+ 0.7,
+ 0.8,
+ 0.9,
+ 1.2,
+ 1.2,
+ 1.8,
+ 2.5,
+ 3.6,
+ 5.5,
+ 7.1,
+ 7.9,
+ 8.8,
+ 9.4,
+ 9.3,
+ 9.9,
+ 11.2,
+ 11.3,
+ 13.0,
+ 15.4,
+ 12.8,
+ 10.4,
+ 9.9,
+ 8.5,
+ 7.5,
+ 6.4,
+ 6.1,
+ 6.2,
+ 6.2]
+var num_of_deaths =[2,
+ 12.0,
+ 43.0,
+ 334.0,
+ 953.0,
+ 1331.0,
+ 1621.0,
+ 1346.0,
+ 1009.0,
+ 746.0,
+ 519.0,
+ 333.0,
+ 253.0,
+ 168.0,
+ 119.0,
+ 95.0,
+ 75.0,
+ 55.0,
+ 51.0,
+ 21.0,
+ 34.0,
+ 23.0,
+ 55.0,
+ 35.0,
+ 38.0,
+ 26.0,
+ 30.0,
+ 24.0,
+ 37.0,
+ 71.0,
+ 72.0,
+ 86.0,
+ 162.0,
+ 255.0,
+ 449.0,
+ 808.0,
+ 1196.0,
+ 1537.0,
+ 2101.0,
+ 2649.0,
+ 3015.0,
+ 4262.0,
+ 3729.0,
+ 4494.0,
+ 6071.0,
+ 6076.0,
+ 5451.0,
+ 5075.0,
+ 4572.0,
+ 3443.0,
+ 2881.0,
+ 2204.0,
+ 1855.0,
+ 1471.0,
+ 1293.0,
+ 1206.0]
+var ifr =[0.002,
+ 0.002,
+ 0.01,
+ 0.025,
+ 0.043,
+ 0.071,
+ 0.074,
+ 0.08,
+ 0.073,
+ 0.073,
+ 0.063,
+ 0.058,
+ 0.052,
+ 0.04,
+ 0.017,
+ 0.019,
+ 0.017,
+ 0.017,
+ 0.006,
+ 0.007,
+ 0.004,
+ 0.007,
+ 0.004,
+ 0.004,
+ 0.003,
+ 0.004,
+ 0.002,
+ 0.003,
+ 0.005,
+ 0.004,
+ 0.003,
+ 0.004,
+ 0.003,
+ 0.004,
+ 0.006,
+ 0.009,
+ 0.012,
+ 0.016,
+ 0.019,
+ 0.018,
+ 0.023,
+ 0.026,
+ 0.035,
+ 0.038,
+ 0.049,
+ 0.05,
+ 0.052,
+ 0.056,
+ 0.051,
+ 0.043,
+ 0.031,
+ 0.026]
 
 
 export default {
@@ -54,21 +376,143 @@ components: {
                     data: num_of_positives
                 },
                 {
-                    name: "Number of 'Covid-19 Deaths'",
-                    type: 'column',
-                    data: num_of_deaths
-                },
-                {
                     name: "Positive Rate",
                     type: 'line',
                     data: positive_rates
                 },
-                {
+
+                ],
+                deaths_series: [{
+                    name: "Number of 'Covid-19 Deaths'",
+                    type: 'column',
+                    data: num_of_deaths
+                },
+                                {
                     name: "Infection Fatality Rate",
                     type: 'line',
                     data: ifr
                 },
                 ],
+                deaths_options: {
+                    type: "line",
+                    stacked: false,
+                    colors: ['#FF4560','#00E396'],
+                    title: {
+                        text: 'Covid Death in Germany',
+                        align: 'center',
+                        style: {
+                            fontSize: '26px',
+                        }
+                    },
+                    zoom: {
+                        type: 'xy',
+                        enabled: true,
+                        autoScaleYaxis: true
+                    },
+                    toolbar: {
+                        autoSelected: 'zoom'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    markers: {
+                        size: 2,
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: "70%"
+                        }
+                    },
+                    xaxis: {
+                        labels: {
+                            style: {
+                                fontSize: '14px',
+                            }
+                        },
+                        title: {
+                            text: "Calendar weeks",
+                            style: {
+                                fontSize: '20px',
+                            }
+                        },
+                        categories: week_numbers
+                    },
+                    yaxis: [{
+                        seriesName: "Number of 'Covid-19 Deaths'",
+                        axisTicks: {
+                            show: true
+                        },
+                        axisBorder: {
+                            show: true,
+                            color: '#FF4560'
+                        },
+                        title: {
+                            text: "Deaths",
+                            style: {
+                                color: '#111',
+                                fontSize: '20px',
+                            }
+                        },
+                        lines: {
+                            show: true,
+                        },
+                        labels: {
+                            style: {
+                                fontSize: '14px',
+                            },
+                            formatter: function (value) {
+                                return value.toFixed(0);
+                            
+                        },
+                        },
+                    },
+                    {
+                        seriesName: 'Infection Fatality Rate',
+                        opposite: true,
+                        show: true,
+                        axisTicks: {
+                            show: true
+                        },
+                        axisBorder: {
+                            show: true,
+                            color: '#00E396'
+                        },
+         
+                        lines: {
+                            show: true,
+                        },
+                        title: {
+                            text: "Infection Fatality Rate",
+                            style: {
+                                color: '#00E396',
+                                fontSize: '20px',
+                            }
+                        },
+                    },
+                    ],
+                    legend: {
+                        horizontalAlign: "left",
+                        offsetX: 40,
+                        fontSize: '20px',
+                    },
+                    annotations: {
+                        xaxis: [{
+                            x: "9/2021",
+                            strokeDashArray: 0,
+                            label: {
+                                borderColor: 'rgba(108,117,125,  0.73)',
+                                style: {
+                                    fontSize: '14px',
+                                    color: '#fff',
+                                    background: 'rgba(108,117,125,  0.73)',
+                                    opacity: 0.6,
+                                },
+                                offsetY: -10,
+                                text: 'Start of the third wave propaganda',
+                            }
+                        },]
+                    }
+                },
                 i18n_options: {
                     type: "line",
                     stacked: false,
@@ -127,7 +571,7 @@ components: {
                             color: '#008FFB'
                         },
                         title: {
-                            text: "Numbers (bar plots)",
+                            text: "Numbers of test",
                             style: {
                                 color: '#008FFB',
                                 fontSize: '20px',
@@ -212,7 +656,7 @@ components: {
                     },
                     annotations: {
                         xaxis: [{
-                            x: 11,
+                            x: "11/2020",
                             strokeDashArray: 0,
                             label: {
                                 borderColor: 'rgba(108,117,125,  0.73)',
@@ -227,8 +671,8 @@ components: {
                             }
                         },
                         {
-                            x: 13,
-                            x2: 19,
+                            x: "13/2020",
+                            x2: "19/2020",
                             borderColor: '#000',
                             fillColor: '#FEB019',
                             opacity: 0.2,
@@ -244,7 +688,7 @@ components: {
                             }
                         },
                         {
-                            x: 15,
+                            x: "15/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -259,7 +703,7 @@ components: {
                             }
                         },
                         {
-                            x: 16,
+                            x: "16/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -275,7 +719,7 @@ components: {
                             }
                         },
                         {
-                            x: 19,
+                            x: "19/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -291,7 +735,7 @@ components: {
                             }
                         },
                         {
-                            x: 23,
+                            x: "23/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -307,7 +751,7 @@ components: {
                             }
                         },
                         {
-                            x: 25,
+                            x: "25/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -323,7 +767,7 @@ components: {
                             }
                         },
                         {
-                            x: 31,
+                            x: "31/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -339,7 +783,7 @@ components: {
                             }
                         },
                         {
-                            x: 35,
+                            x: "35/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -355,8 +799,7 @@ components: {
                             }
                         },
                         {
-                            x: 45,
-                            x2: 51,
+                            x: "45/2020",
                             strokeDashArray: 0,
                             fillColor: 'rgba(208,200,0,  0.4)',
                             label: {
@@ -368,12 +811,29 @@ components: {
                                     opacity: 0.6,
                                 },
                                 offsetY: -10,
-                                text: '02.11.: Lockdown "light", 07.11: Demo in Leipzig',
+                                text: '07.11: Demo in Leipzig',
                             }
                         },
                         {
-                            x: 51,
-                            x2: 53,
+                            x: "45/2020",
+                            x2: "51/2020",
+                            strokeDashArray: 0,
+                            fillColor: 'rgba(208,200,0,  0.4)',
+                            label: {
+                                borderColor: 'rgba(255,0,0,  0.73)',
+                                style: {
+                                    fontSize: '14px',
+                                    color: '#fff',
+                                    background: 'rgba(255,50,50,  0.73)',
+                                    opacity: 0.6,
+                                },
+                                offsetY: 150,
+                                text: '02.11.: 2nd Lockdown "light"',
+                            }
+                        },
+                        {
+                            x: "51/2020",
+                            x2: "9/2021",
                             strokeDashArray: 0,
                             fillColor: 'rgba(255,0,0,  0.6)',
                             label: {
@@ -393,6 +853,137 @@ components: {
                 },
             },
             de: {
+                deaths_series: [{
+                    name: "Todesfälle",
+                    type: 'column',
+                    data: num_of_deaths
+                },
+                {
+                    name: "Fallsterblichkeit",
+                    type: 'line',
+                    data: ifr
+                },
+                ],
+                deaths_options: {
+                    type: "line",
+                    stacked: false,
+                    colors: ['#FF4560','#008FFB'],
+                    title: {
+                        text: 'Covid19-Sterbefälle & Fallsterblichkeit',
+                        align: 'center',
+                        style: {
+                            fontSize: '26px',
+                        }
+                    },
+                    zoom: {
+                        type: 'xy',
+                        enabled: true,
+                        autoScaleYaxis: true
+                    },
+                    toolbar: {
+                        autoSelected: 'zoom'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    markers: {
+                        size: 2,
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: "70%"
+                        }
+                    },
+                    xaxis: {
+                        labels: {
+                            style: {
+                                fontSize: '14px',
+                            }
+                        },
+                        title: {
+                            text: "Kalenderwoche",
+                            style: {
+                                fontSize: '20px',
+                            }
+                        },
+                        categories: week_numbers
+                    },
+                    yaxis: [{
+                        seriesName: "Todesfälle",
+                        axisTicks: {
+                            show: true
+                        },
+                        axisBorder: {
+                            show: true,
+                            color: '#FF4560'
+                        },
+                        title: {
+                            text: "Sterbefälle an/mit Covid-19",
+                            style: {
+                                color: '#FF4560',
+                                fontSize: '20px',
+                            }
+                        },
+                        lines: {
+                            show: true,
+                        },
+                        labels: {
+                            style: {
+                                fontSize: '14px',
+                            },
+                            formatter: function (value) {
+                                return value.toFixed(0);
+                            
+                        },
+                        },
+                    },
+                    {
+                        seriesName: 'Fallsterblichkeit',
+                        opposite: true,
+                        show: true,
+                        axisTicks: {
+                            show: true
+                        },
+                        axisBorder: {
+                            show: true,
+                            color: '#008FFB'
+                        },
+         
+                        lines: {
+                            show: true,
+                        },
+                        title: {
+                            text: "Fallsterblichkeit",
+                            style: {
+                                color: '#008FFB',
+                                fontSize: '20px',
+                            }
+                        },
+                    },
+                    ],
+                    legend: {
+                        horizontalAlign: "left",
+                        offsetX: 40,
+                        fontSize: '20px',
+                    },
+                    annotations: {
+                        xaxis: [{
+                            x: "9/2021",
+                            strokeDashArray: 0,
+                            label: {
+                                borderColor: 'rgba(108,117,125,  0.73)',
+                                style: {
+                                    fontSize: '14px',
+                                    color: '#fff',
+                                    background: 'rgba(108,117,125,  0.73)',
+                                    opacity: 0.6,
+                                },
+                                offsetY: -10,
+                                text: 'Start der dritten Welle Propaganda',
+                            }
+                        },]
+                    }
+                },
                 i18n_series: [{
                     name: 'Anzahl der Testungen',
                     type: 'column',
@@ -403,21 +994,13 @@ components: {
                     type: 'column',
                     data: num_of_positives
                 },
-                {
-                    name: "Todesfälle",
-                    type: 'column',
-                    data: num_of_deaths
-                },
+                
                 {
                     name: "Positivenrate",
                     type: 'line',
                     data: positive_rates
                 },
-                {
-                    name: "Infektion-Verstorbene-Anteil",
-                    type: 'line',
-                    data: ifr
-                },
+                
                 ],
                 i18n_options: {
                     type: "line",
@@ -561,7 +1144,7 @@ components: {
                     },
                     annotations: {
                         xaxis: [{
-                            x: 11,
+                            x: "11/2020",
                             strokeDashArray: 0,
                             label: {
                                 borderColor: 'rgba(108,117,125,  0.73)',
@@ -576,8 +1159,8 @@ components: {
                             }
                         },
                         {
-                            x: 13,
-                            x2: 19,
+                            x: "13/2020",
+                            x2: "19/2020",
                             borderColor: '#000',
                             fillColor: '#FEB019',
                             opacity: 0.2,
@@ -593,7 +1176,7 @@ components: {
                             }
                         },
                         {
-                            x: 15,
+                            x: "15/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -608,7 +1191,7 @@ components: {
                             }
                         },
                         {
-                            x: 18,
+                            x: "18/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -624,7 +1207,7 @@ components: {
                             }
                         },
                         {
-                            x: 19,
+                            x: "19/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -640,7 +1223,7 @@ components: {
                             }
                         },
                         {
-                            x: 23,
+                            x: "23/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -656,7 +1239,7 @@ components: {
                             }
                         },
                         {
-                            x: 25,
+                            x: "25/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -672,7 +1255,7 @@ components: {
                             }
                         },
                         {
-                            x: 31,
+                            x: "31/2020",
                             strokeDashArray: 0,
 
                             label: {
@@ -688,7 +1271,7 @@ components: {
                             }
                         },
                         {
-                            x: 35,
+                            x: "35/2020",
                             strokeDashArray: 0,
                             label: {
                                 borderColor: 'rgba(108,117,125,  0.73)',
@@ -703,8 +1286,7 @@ components: {
                             }
                         },
                         {
-                            x: 45,
-                            x2: 51,
+                            x: "45/2020",
                             strokeDashArray: 0,
                             fillColor: 'rgba(208,200,0,  0.4)',
                             label: {
@@ -716,12 +1298,29 @@ components: {
                                     opacity: 0.6,
                                 },
                                 offsetY: -10,
-                                text: '02.11.: Lockdown "light", 07.11: Demo Leipzig ',
+                                text: '07.11: Demo Leipzig ',
                             }
                         },
                         {
-                            x: 51,
-                            x2: 53,
+                            x: "45/2020",
+                            x2: "50/2020",
+                            strokeDashArray: 0,
+                            fillColor: 'rgba(208,200,0,  0.4)',
+                            label: {
+                                borderColor: 'rgba(255,0,0,  0.73)',
+                                style: {
+                                    fontSize: '14px',
+                                    color: '#fff',
+                                    background: 'rgba(255,50,50,  0.73)',
+                                    opacity: 0.6,
+                                },
+                                offsetY: 130,
+                                text: '2.Lockdown "light"',
+                            }
+                        },
+                        {
+                            x: "51/2020",
+                            x2: "9/2021",
                             strokeDashArray: 0,
                             fillColor: 'rgba(255,0,0,  0.6)',
                             label: {

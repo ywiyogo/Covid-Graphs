@@ -34,4 +34,5 @@ yarn-error.log*
 
 # output script
 outputdata.txt
+output*.txt
 .vscode/extensions.json
