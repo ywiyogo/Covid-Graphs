@@ -88,8 +88,12 @@ var week_numbers =['10/2020',
  '9/2021',
  '10/2021',
  '11/2021',
- '12/2021']
-var num_of_tests =[66906.0,
+ '12/2021',
+ '13/2021',
+ '14/2021',
+ '15/2021',
+ '16/2021']
+var num_of_tests =[69184.0,
  128008.0,
  374534.0,
  377599.0,
@@ -135,14 +139,21 @@ var num_of_tests =[66906.0,
  845729.0,
  1231405.0,
  1187564.0,
- 1110190.0,
- 1148018.0,
- 1097419.0,
- 1056768.0,
- 1098665.0,
- 1170335.0,
- 1136825.0]
-var num_of_positives =[1717.0,
+ 1113690.0,
+ 1151633.0,
+ 1101499.0,
+ 1060602.0,
+ 1103231.0,
+ 1171798.0,
+ 1153270.0,
+ 1280050.0,
+ 1367247.0,
+ 1415220.0,
+ 1178378.0,
+ 1168950.0,
+ 1311887.0,
+ 1409259.0]
+var num_of_positives =[1722.0,
  7470.0,
  25886.0,
  33139.0,
@@ -188,14 +199,21 @@ var num_of_positives =[1717.0,
  129930.0,
  157772.0,
  124037.0,
- 110014.0,
- 97256.0,
- 82288.0,
- 67774.0,
- 67211.0,
- 72008.0,
- 70991.0]
-var positive_rates =[2.6,
+ 110163.0,
+ 97383.0,
+ 82436.0,
+ 67882.0,
+ 67379.0,
+ 72059.0,
+ 71715.0,
+ 85655.0,
+ 107827.0,
+ 131857.0,
+ 128814.0,
+ 140800.0,
+ 163282.0,
+ 175711.0]
+var positive_rates =[2.5,
  5.8,
  6.9,
  8.8,
@@ -246,8 +264,15 @@ var positive_rates =[2.6,
  7.5,
  6.4,
  6.1,
+ 6.1,
  6.2,
- 6.2]
+ 6.7,
+ 7.9,
+ 9.3,
+ 10.9,
+ 12.0,
+ 12.4,
+ 12.5]
 var num_of_deaths =[2,
  12.0,
  43.0,
@@ -303,7 +328,11 @@ var num_of_deaths =[2,
  1855.0,
  1471.0,
  1293.0,
- 1206.0]
+ 1206.0,
+ 1093.0,
+ 1390.0,
+ 1561.0,
+ 1650.0]
 var ifr =[0.002,
  0.002,
  0.01,
@@ -349,13 +378,22 @@ var ifr =[0.002,
  0.035,
  0.038,
  0.049,
- 0.05,
+ 0.049,
  0.052,
- 0.056,
+ 0.055,
  0.051,
  0.043,
  0.031,
- 0.026]
+ 0.026,
+ 0.017,
+ 0.012,
+ 0.009,
+ 0.008,
+ 0.01,
+ 0.01,
+ 0.009]
+
+
 
 
 export default {
@@ -497,7 +535,7 @@ components: {
                     },
                     annotations: {
                         xaxis: [{
-                            x: "9/2021",
+                            x: "8/2021",
                             strokeDashArray: 0,
                             label: {
                                 borderColor: 'rgba(108,117,125,  0.73)',
@@ -599,16 +637,6 @@ components: {
                         },
                     },
                     {
-                        seriesName: 'Number of Tests',
-                        show: false,
-                        labels: {
-                            formatter: function (value) {
-                                return value.toFixed(0);
-                            },
-                        },
-
-                    },
-                    {
                         seriesName: 'Positive Rate',
                         axisTicks: {
                             show: true
@@ -635,10 +663,6 @@ components: {
                                 fontSize: '20px',
                             }
                         }
-                    },
-                    {
-                        seriesName: 'Positive Rate',
-                        show: true,
                     },
 
                     ],
@@ -833,7 +857,7 @@ components: {
                         },
                         {
                             x: "51/2020",
-                            x2: "9/2021",
+                            x2: "16/2021",
                             strokeDashArray: 0,
                             fillColor: 'rgba(255,0,0,  0.6)',
                             label: {
@@ -968,7 +992,7 @@ components: {
                     },
                     annotations: {
                         xaxis: [{
-                            x: "9/2021",
+                            x: "8/2021",
                             strokeDashArray: 0,
                             label: {
                                 borderColor: 'rgba(108,117,125,  0.73)',
@@ -1081,15 +1105,6 @@ components: {
                     {
                         seriesName: 'Anzahl der Testungen',
                         show: false,
-                        labels: {
-                            formatter: function (value) {
-                                return value.toFixed(0);
-                            },
-                        },
-                    },
-                    {
-                        seriesName: 'Anzahl der Testungen',
-                        show: false,
                         opposite: true,
                         labels: {
                             formatter: function (value) {
@@ -1124,11 +1139,6 @@ components: {
                             }
                         }
                     },
-                    {
-                        seriesName: 'Positivenrate',
-                        show: true,
-                    },
-
                     ],
                     tooltip: {
                         shared: false,
@@ -1320,7 +1330,7 @@ components: {
                         },
                         {
                             x: "51/2020",
-                            x2: "9/2021",
+                            x2: "16/2021",
                             strokeDashArray: 0,
                             fillColor: 'rgba(255,0,0,  0.6)',
                             label: {

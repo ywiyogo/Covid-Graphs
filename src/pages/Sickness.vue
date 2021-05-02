@@ -60,7 +60,7 @@ var v2017 = [3.3, 6.1, 5.3, 3.9, 3.3, 4.1, 3.6, 3.9, 4.4, 3.5, 3.7, 5.3]
 var v2018 = [3.2, 5.8, 7.0, 3.4, 3.6, 4.2, 3.6, 4.1, 3.6, 3.9, 4.5, 4.2]
 var v2019 = [3.2, 6.1, 5.9, 4.6, 3.9, 3.6, 3.9, 4.4, 3.6, 4.3, 4.4, 4.1]
 var v2020 = [3.3, 4.6, 4.5, 6.5, 3.8, 3.4, 4.2, 3.6, 4.1, 4.7, 4.1, 4.8]
-
+var v2021 = [3.4, 4.3, 4.2]
 export default {
   components: {
         apexchart: VueApexCharts
@@ -93,14 +93,19 @@ export default {
                     name: "2020",
                     type: "line",
                     data: v2020
+                },
+                {
+                    name: "2021",
+                    type: "line",
+                    data: v2021
                 }
                 ],
                 i18n_options: {
                     type: "line",
                     stroke: {
                         curve: 'smooth',
-                        width: [1, 1, 1, 1, 2],
-                        dashArray: [4, 8, 0, 0, 0]
+                        width: [2, 2, 2, 2, 6, 6],
+                        dashArray: [4, 8, 0, 0, 0, 0]
                     },
                     stacked: false,
                     title: {
@@ -210,14 +215,19 @@ export default {
                     name: "2020",
                     type: "line",
                     data: v2020
+                },{
+                    name: "2021",
+                    type: "line",
+                    data: v2021
                 }
+
                 ],
                 i18n_options: {
                     type: "line",
                     stroke: {
                         curve: 'smooth',
-                        width: [2, 2, 2, 2, 6],
-                        dashArray: [4, 8, 0, 0, 0]
+                        width: [2, 2, 2, 2, 6, 6],
+                        dashArray: [4, 8, 0, 0, 0, 0]
                     },
                     stacked: false,
                     title: {

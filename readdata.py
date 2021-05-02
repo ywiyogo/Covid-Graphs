@@ -4,7 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from collections import namedtuple
 
-datafile = 'data/Altersverteilung210323.xlsx'
+datafile = 'data/Altersverteilung210427.xlsx'
+mortality_file = 'data/Fallzahlen_Kum_Tab210427.xlsx'
+test_file = 'data/Testzahlen-gesamt210428.xlsx'
 # old version for 210126, new version Inzidenzen -> inzidenz_tabelle
 # print(df["Inzidenzen"].index.stop)
 # print(df["Inzidenzen"].columns[1:][0])
@@ -15,6 +17,10 @@ sheetname = "Inzidenzen"
 sheetname = "inzidenz_tabelle"
 sheetname = "7-Tage-Inzidenzen"
 sheetname = "7Tage-Inzidenz"
+sheetname = "7-Tages-Inzidenz"
+
+xl = pd.ExcelFile(datafile)
+sheetname = xl.sheet_names[0]
 
 df = pd.read_excel(datafile, sheet_name=None)
 
@@ -42,8 +48,9 @@ def extract_incidence_data():
         heatmap_data.append(row_dict)
 
 
-    with open("outputincidence.txt", "w") as outputfile: 
-        # Writing data to a file 
+    with open("outputincidence.txt", "w", newline='') as outputfile: 
+        # Writing data to a file
+        pp.pprint("var inzidenz_data = ", outputfile)
         pp.pprint(heatmap_data, outputfile)
 
 
@@ -57,14 +64,13 @@ def calc_mortality():
 def extract_test_death_data():
     """Extract and printout data as javascript variable for Test.vue"""
 
-    filename = 'data/Testzahlen-gesamt210324.xlsx'
     sheetname = "1_Testzahlerfassung"
     num_of_tests = []
     num_of_positives = []
     positive_weeks={}
     positive_rates=[]
     total=[]
-    excel_data = pd.read_excel(filename, sheet_name=sheetname)
+    excel_data = pd.read_excel(test_file, sheet_name=sheetname)
     print(excel_data)
     print("Col 0")
     print(excel_data.columns[0:])
@@ -110,9 +116,9 @@ def extract_test_death_data():
     #     ifr.append(np.round(fatality,3))
     
 
-    filename = 'data/Fallzahlen_Kum_Tab210330.xlsx'
+    
     week_sheet = "Fälle-Todesfälle-gesamt"
-    daily_data = pd.read_excel(filename, sheet_name=week_sheet, skiprows=2)
+    daily_data = pd.read_excel(mortality_file, sheet_name=week_sheet, skiprows=2)
     cw = 11
     year=2020
     print("Start in calendar week 11")
